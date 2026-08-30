@@ -26,6 +26,9 @@ export default function App() {
         if (!parsed.paymentLink || parsed.paymentLink.includes('cosmofeed.com')) {
           parsed.paymentLink = 'https://payments.cashfree.com/forms?code=unlockeverything';
         }
+        if (!parsed.productImageUrl || parsed.productImageUrl === '') {
+          parsed.productImageUrl = '/hulk_poster.png';
+        }
         return { ...DEFAULT_CONFIG, ...parsed };
       } catch (e) {
         console.error(e);

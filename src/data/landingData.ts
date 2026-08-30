@@ -12,7 +12,7 @@ export const DEFAULT_CONFIG: BundleConfig = {
   whatsappNumber: '+91 6394927894',
   whatsappMessage: 'Hi! I purchased the 300+ AI Hulk Reels Bundle and need instant access support.',
   supportEmail: 'support@viralaibundles.in',
-  productImageUrl: ''
+  productImageUrl: '/hulk_poster.png'
 };
 
 export const REEL_SAMPLES: ReelSample[] = [

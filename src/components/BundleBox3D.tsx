@@ -1,8 +1,8 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { motion } from 'motion/react';
-import { Zap, Flame, Shield, Sparkles, Upload, Image as ImageIcon, Check } from 'lucide-react';
+import { Zap } from 'lucide-react';
 import { BundleConfig } from '../types';
-import { HulkPosterGraphic } from './HulkPosterGraphic';
+import hulkPosterImage from '../assets/hulk_poster.png';
 
 interface BundleBoxProps {
   config?: BundleConfig;
@@ -15,6 +15,8 @@ export const BundleBox3D: React.FC<BundleBoxProps> = ({ config, onImageUpdate })
   const [mousePos, setMousePos] = useState({ x: 0, y: 0 });
   const [isHovered, setIsHovered] = useState(false);
   const [isDragging, setIsDragging] = useState(false);
+
+  const displayImage = config?.productImageUrl || hulkPosterImage;
 
   // Background electric lightning & energy ray canvas animation
   useEffect(() => {
@@ -201,36 +203,8 @@ export const BundleBox3D: React.FC<BundleBoxProps> = ({ config, onImageUpdate })
         </h2>
       </motion.div>
 
-      {/* If custom product image is uploaded, render the uploaded poster artwork in 3D frame */}
-      {config?.productImageUrl ? (
-        <div className="relative w-full max-w-[420px] my-2">
-          <motion.div
-            style={{
-              transformStyle: 'preserve-3d',
-              perspective: 1000
-            }}
-            animate={{
-              rotateY: isHovered ? mousePos.x : [-3, 3, -3],
-              rotateX: isHovered ? mousePos.y : [2, -2, 2],
-              y: [0, -6, 0]
-            }}
-            transition={{
-              y: { duration: 4, repeat: Infinity, ease: 'easeInOut' },
-              rotateY: isHovered ? { duration: 0.1 } : { duration: 5, repeat: Infinity, ease: 'easeInOut' },
-              rotateX: isHovered ? { duration: 0.1 } : { duration: 5, repeat: Infinity, ease: 'easeInOut' }
-            }}
-            className="relative rounded-2xl overflow-hidden border-2 border-lime-400 shadow-[0_0_50px_rgba(163,230,53,0.7)]"
-          >
-            <img
-              src={config.productImageUrl}
-              alt="250+ AI Hulk Story Reels Bundle"
-              referrerPolicy="no-referrer"
-              className="w-full h-auto object-cover rounded-xl"
-            />
-          </motion.div>
-        </div>
-      ) : (
-        /* MAIN 3D PRODUCT POSTER SHOWCASE */
+      {/* MAIN 3D PRODUCT POSTER SHOWCASE */}
+      <div className="relative w-full max-w-[440px] my-2">
         <motion.div
           style={{
             transformStyle: 'preserve-3d',
@@ -242,15 +216,23 @@ export const BundleBox3D: React.FC<BundleBoxProps> = ({ config, onImageUpdate })
             y: [0, -6, 0]
           }}
           transition={{
-            y: { duration: 4.5, repeat: Infinity, ease: 'easeInOut' },
-            rotateY: isHovered ? { duration: 0.1 } : { duration: 6, repeat: Infinity, ease: 'easeInOut' },
-            rotateX: isHovered ? { duration: 0.1 } : { duration: 6, repeat: Infinity, ease: 'easeInOut' }
+            y: { duration: 4, repeat: Infinity, ease: 'easeInOut' },
+            rotateY: isHovered ? { duration: 0.1 } : { duration: 5, repeat: Infinity, ease: 'easeInOut' },
+            rotateX: isHovered ? { duration: 0.1 } : { duration: 5, repeat: Infinity, ease: 'easeInOut' }
           }}
-          className="relative w-full max-w-[440px] my-2 cursor-pointer"
+          className="relative rounded-2xl overflow-hidden border-2 border-lime-400 shadow-[0_0_50px_rgba(163,230,53,0.7)] bg-black"
         >
-          <HulkPosterGraphic />
+          <img
+            src={displayImage}
+            alt="300+ AI Hulk Story Reels Bundle"
+            referrerPolicy="no-referrer"
+            className="w-full h-auto object-contain rounded-xl"
+            onError={(e) => {
+              (e.currentTarget as HTMLImageElement).src = hulkPosterImage;
+            }}
+          />
         </motion.div>
-      )}
+      </div>
 
       {/* BOTTOM SLOGAN: UNLEASH THE POWER OF AI! */}
       <motion.div
