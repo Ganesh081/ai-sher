@@ -1,167 +1,89 @@
 import React, { useState, useEffect } from 'react';
-import { DEFAULT_CONFIG } from './data/landingData';
-import { BundleConfig } from './types';
-import { Header } from './components/Header';
+import confetti from 'canvas-confetti';
+import { PAYMENT_URL, DEFAULT_POSTER_URL, COURSE_PRICE } from './data/courseData';
+import { Navbar } from './components/Navbar';
 import { HeroSection } from './components/HeroSection';
-import { WhatYouGetSection } from './components/WhatYouGetSection';
-import { ReelPreviewSection } from './components/ReelPreviewSection';
-import { WhyBuySection } from './components/WhyBuySection';
-import { HowItWorksSection } from './components/HowItWorksSection';
+import { WhatYouWillLearn } from './components/WhatYouWillLearn';
+import { WhyJoinSection } from './components/WhyJoinSection';
+import { CurriculumSection } from './components/CurriculumSection';
+import { PricingSection } from './components/PricingSection';
 import { TestimonialsSection } from './components/TestimonialsSection';
-import { FinalCTASection } from './components/FinalCTASection';
 import { FaqSection } from './components/FaqSection';
 import { Footer } from './components/Footer';
 import { StickyMobileBar } from './components/StickyMobileBar';
-import { LiveSalesToast } from './components/LiveSalesToast';
-import { PaymentModal } from './components/PaymentModal';
-import { SellerConfigModal } from './components/SellerConfigModal';
-import { DownloadAccessPage } from './components/DownloadAccessPage';
 
 export default function App() {
-  const [config, setConfig] = useState<BundleConfig>(() => {
-    const saved = localStorage.getItem('ai_hulk_bundle_config');
-    if (saved) {
-      try {
-        const parsed = JSON.parse(saved);
-        if (!parsed.paymentLink || parsed.paymentLink.includes('cosmofeed.com')) {
-          parsed.paymentLink = 'https://payments.cashfree.com/forms?code=unlockeverything';
-        }
-        if (!parsed.productImageUrl || parsed.productImageUrl === '') {
-          parsed.productImageUrl = '/hulk_poster.png';
-        }
-        return { ...DEFAULT_CONFIG, ...parsed };
-      } catch (e) {
-        console.error(e);
-      }
+  const [posterUrl, setPosterUrl] = useState<string>(() => {
+    const saved = localStorage.getItem('ai_video_course_poster_url');
+    if (saved && saved.trim() !== '' && !saved.includes('sher_course_poster')) {
+      return saved;
     }
-    return DEFAULT_CONFIG;
+    return DEFAULT_POSTER_URL;
   });
 
-  const [currentView, setCurrentView] = useState<'landing' | 'access'>('landing');
-  const [isPaymentModalOpen, setIsPaymentModalOpen] = useState<boolean>(false);
-  const [isSettingsOpen, setIsSettingsOpen] = useState<boolean>(false);
-
-  const handleSaveConfig = (newConfig: BundleConfig) => {
-    setConfig(newConfig);
-    localStorage.setItem('ai_hulk_bundle_config', JSON.stringify(newConfig));
+  const handlePosterUpdate = (newUrl: string) => {
+    setPosterUrl(newUrl);
+    try {
+      localStorage.setItem('ai_video_course_poster_url', newUrl);
+    } catch (e) {
+      console.warn('LocalStorage quota exceeded or unavailable', e);
+    }
   };
 
   const handleBuyClick = () => {
-    const link = config.paymentLink || 'https://payments.cashfree.com/forms?code=unlockeverything';
-    window.open(link, '_blank');
-  };
+    // Trigger celebratory confetti burst
+    try {
+      confetti({
+        particleCount: 60,
+        spread: 70,
+        origin: { y: 0.7 },
+        colors: ['#f59e0b', '#38bdf8', '#fbbf24', '#0284c7']
+      });
+    } catch (e) {
+      // safe fallback
+    }
 
-  const handlePaymentSuccess = () => {
-    setIsPaymentModalOpen(false);
-    setCurrentView('access');
-    window.scrollTo({ top: 0, behavior: 'smooth' });
+    // Cashfree payment link opens in new tab as specified
+    window.open(PAYMENT_URL, '_blank', 'noopener,noreferrer');
   };
 
   return (
-    <div className="min-h-screen bg-[#050505] text-white flex flex-col selection:bg-lime-400 selection:text-black">
-      {currentView === 'landing' ? (
-        <>
-          {/* Top Sticky Header */}
-          <Header
-            config={config}
-            onOpenSettings={() => setIsSettingsOpen(true)}
-            onBuyClick={handleBuyClick}
-          />
+    <div className="min-h-screen bg-[#030611] text-slate-100 flex flex-col selection:bg-amber-400 selection:text-black">
+      {/* Fixed Sticky Header */}
+      <Navbar onBuyClick={handleBuyClick} />
 
-          {/* Hero Section */}
-          <HeroSection
-            config={config}
-            onBuyClick={handleBuyClick}
-            onImageUpdate={(url) => {
-              const updated = { ...config, productImageUrl: url };
-              handleSaveConfig(updated);
-            }}
-            onHeaderImageUpdate={(url) => {
-              const updated = { ...config, headerImageUrl: url };
-              handleSaveConfig(updated);
-            }}
-          />
-
-          {/* What You Get Section */}
-          <WhatYouGetSection
-            config={config}
-            onBuyClick={handleBuyClick}
-          />
-
-          {/* Video Reel Previews */}
-          <ReelPreviewSection
-            onBuyClick={handleBuyClick}
-          />
-
-          {/* Why Buy Section */}
-          <WhyBuySection
-            config={config}
-            onBuyClick={handleBuyClick}
-          />
-
-          {/* How It Works Section */}
-          <HowItWorksSection
-            config={config}
-            onBuyClick={handleBuyClick}
-          />
-
-          {/* Real Social Proof Testimonials */}
-          <TestimonialsSection />
-
-          {/* Final Strong CTA Section */}
-          <FinalCTASection
-            config={config}
-            onBuyClick={handleBuyClick}
-          />
-
-          {/* FAQ Accordion */}
-          <FaqSection
-            config={config}
-            onBuyClick={handleBuyClick}
-          />
-
-          {/* Footer */}
-          <Footer
-            config={config}
-            onOpenSettings={() => setIsSettingsOpen(true)}
-          />
-
-          {/* Mobile Bottom Conversion Bar */}
-          <StickyMobileBar
-            config={config}
-            onBuyClick={handleBuyClick}
-          />
-
-          {/* Real-time Sales Popup Toast */}
-          <LiveSalesToast />
-        </>
-      ) : (
-        /* Post-Purchase Digital Access / Download Portal */
-        <DownloadAccessPage
-          config={config}
-          onBackToLanding={() => {
-            setCurrentView('landing');
-            window.scrollTo({ top: 0, behavior: 'smooth' });
-          }}
+      <main className="flex-1">
+        {/* Hero Section */}
+        <HeroSection
+          posterUrl={posterUrl}
+          onPosterUpdate={handlePosterUpdate}
+          onBuyClick={handleBuyClick}
         />
-      )}
 
-      {/* Checkout & Payment Modal */}
-      <PaymentModal
-        isOpen={isPaymentModalOpen}
-        onClose={() => setIsPaymentModalOpen(false)}
-        config={config}
-        onPaymentSuccess={handlePaymentSuccess}
-      />
+        {/* What You Will Learn (7 Core Pillars) */}
+        <WhatYouWillLearn onBuyClick={handleBuyClick} />
 
-      {/* Seller Gateway Settings Modal */}
-      <SellerConfigModal
-        isOpen={isSettingsOpen}
-        onClose={() => setIsSettingsOpen(false)}
-        config={config}
-        onSave={handleSaveConfig}
-        onPreviewAccessPage={() => setCurrentView('access')}
-      />
+        {/* Why Join (4 Core Pillars + Comparison) */}
+        <WhyJoinSection onBuyClick={handleBuyClick} />
+
+        {/* Detailed Curriculum & Syllabus */}
+        <CurriculumSection onBuyClick={handleBuyClick} />
+
+        {/* Verified Student Experiences */}
+        <TestimonialsSection onBuyClick={handleBuyClick} />
+
+        {/* Dedicated Pricing Master Section */}
+        <PricingSection onBuyClick={handleBuyClick} />
+
+        {/* Frequently Asked Questions */}
+        <FaqSection onBuyClick={handleBuyClick} />
+      </main>
+
+      {/* Footer with Cashfree and Earnings Disclaimers */}
+      <Footer onBuyClick={handleBuyClick} />
+
+      {/* Mobile Floating Sticky CTA Bar */}
+      <StickyMobileBar onBuyClick={handleBuyClick} />
     </div>
   );
 }

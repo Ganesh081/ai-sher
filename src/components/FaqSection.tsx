@@ -1,101 +1,89 @@
 import React, { useState } from 'react';
-import { motion, AnimatePresence } from 'motion/react';
-import { ChevronDown, HelpCircle, MessageCircle } from 'lucide-react';
-import { FAQS } from '../data/landingData';
-import { BundleConfig } from '../types';
+import { FAQS, PAYMENT_URL, COURSE_PRICE } from '../data/courseData';
+import { ChevronDown, ChevronUp, HelpCircle, ArrowRight } from 'lucide-react';
 
-interface FaqProps {
-  config: BundleConfig;
+interface FaqSectionProps {
   onBuyClick: () => void;
 }
 
-export const FaqSection: React.FC<FaqProps> = ({ config, onBuyClick }) => {
-  const [openId, setOpenId] = useState<string>('f1');
+export const FaqSection: React.FC<FaqSectionProps> = ({ onBuyClick }) => {
+  const [openIndex, setOpenIndex] = useState<number | null>(0);
 
-  const toggleFaq = (id: string) => {
-    setOpenId(prev => (prev === id ? '' : id));
-  };
-
-  const handleWhatsApp = () => {
-    const cleanNum = config.whatsappNumber.replace(/[^0-9]/g, '');
-    const url = `https://wa.me/${cleanNum}?text=${encodeURIComponent('Hi! I have a question regarding the 300+ AI Hulk Reels Bundle.')}`;
-    window.open(url, '_blank');
+  const toggleFaq = (index: number) => {
+    setOpenIndex(openIndex === index ? null : index);
   };
 
   return (
-    <section className="relative py-16 px-4 bg-[#050505] border-t border-white/5">
-      <div className="max-w-4xl mx-auto">
+    <section id="faq" className="relative py-20 bg-[#02050e] overflow-hidden">
+      <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
         
         {/* Section Header */}
-        <div className="text-center max-w-2xl mx-auto mb-12">
-          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/5 border border-lime-400/30 text-lime-400 text-xs font-bold uppercase tracking-wider mb-3">
-            <HelpCircle className="w-3.5 h-3.5" />
-            <span>Got Questions?</span>
+        <div className="text-center max-w-2xl mx-auto mb-14 space-y-3">
+          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-slate-900 border border-slate-800 text-xs font-mono-code font-bold tracking-wider text-slate-300">
+            <HelpCircle className="w-3.5 h-3.5 text-sky-400" />
+            <span>GOT QUESTIONS?</span>
           </div>
-          <h2 className="text-3xl sm:text-4xl font-black text-white uppercase font-display tracking-tight">
-            FREQUENTLY ASKED <span className="text-lime-400 text-glow-lime">QUESTIONS</span>
+          <h2 className="text-3xl sm:text-4xl font-heading font-black tracking-tight text-white">
+            Frequently Asked{' '}
+            <span className="text-transparent bg-clip-text bg-gradient-to-r from-sky-400 to-blue-500">
+              Questions
+            </span>
           </h2>
-          <p className="text-gray-400 text-sm mt-2">
-            Everything you need to know before grabbing your bundle for just ₹29.
+          <p className="text-sm sm:text-base text-slate-400">
+            Everything you need to know about the AI Video Creation Course and accessing your materials.
           </p>
         </div>
 
-        {/* FAQ Accordion List */}
-        <div className="space-y-3.5 mb-10">
-          {FAQS.map(faq => {
-            const isOpen = openId === faq.id;
+        {/* FAQs List */}
+        <div className="space-y-3">
+          {FAQS.map((faq, index) => {
+            const isOpen = openIndex === index;
             return (
               <div
-                key={faq.id}
-                className="rounded-2xl bg-[#0c0c0c] border border-white/5 overflow-hidden transition-all duration-200"
+                key={index}
+                className={`rounded-2xl border transition-all duration-200 overflow-hidden ${
+                  isOpen
+                    ? 'bg-slate-900/90 border-sky-500/40 shadow-lg shadow-black/40'
+                    : 'bg-slate-900/40 border-slate-800/80 hover:border-slate-700'
+                }`}
               >
                 <button
-                  onClick={() => toggleFaq(faq.id)}
-                  className="w-full p-5 text-left flex items-center justify-between gap-4 focus:outline-none hover:bg-white/5"
+                  type="button"
+                  onClick={() => toggleFaq(index)}
+                  className="w-full p-5 sm:p-6 text-left flex items-center justify-between gap-4"
                 >
-                  <span className="text-sm sm:text-base font-bold text-white font-display">
+                  <span className="text-base sm:text-lg font-heading font-bold text-white">
                     {faq.question}
                   </span>
-                  <div className={`w-8 h-8 rounded-full bg-lime-950/60 border border-lime-400/40 flex items-center justify-center shrink-0 transition-transform duration-300 ${isOpen ? 'rotate-180 bg-lime-400 text-black border-transparent' : 'text-lime-400'}`}>
-                    <ChevronDown className="w-4 h-4" />
+                  <div className="w-7 h-7 rounded-full bg-slate-800 flex items-center justify-center text-slate-300 shrink-0">
+                    {isOpen ? <ChevronUp className="w-4 h-4" /> : <ChevronDown className="w-4 h-4" />}
                   </div>
                 </button>
 
-                <AnimatePresence>
-                  {isOpen && (
-                    <motion.div
-                      initial={{ height: 0, opacity: 0 }}
-                      animate={{ height: 'auto', opacity: 1 }}
-                      exit={{ height: 0, opacity: 0 }}
-                      transition={{ duration: 0.2 }}
-                      className="px-5 pb-5 pt-1 text-xs sm:text-sm text-gray-400 leading-relaxed border-t border-white/5"
-                    >
-                      {faq.answer}
-                    </motion.div>
-                  )}
-                </AnimatePresence>
+                {isOpen && (
+                  <div className="px-5 pb-6 sm:px-6 pt-1 text-sm text-slate-300 leading-relaxed border-t border-slate-800/60">
+                    {faq.answer}
+                  </div>
+                )}
               </div>
             );
           })}
         </div>
 
-        {/* 24/7 Email Support Box */}
-        <div className="p-5 rounded-2xl bg-gradient-to-r from-lime-950/30 via-[#0c0c0c] to-black border border-lime-400/30 flex flex-col sm:flex-row items-center justify-between gap-4 text-center sm:text-left">
-          <div className="flex items-center gap-3">
-            <div className="w-11 h-11 rounded-full bg-lime-400 text-black flex items-center justify-center shadow-[0_0_15px_rgba(163,230,53,0.4)] shrink-0">
-              <HelpCircle className="w-6 h-6" />
-            </div>
-            <div>
-              <div className="text-sm font-bold text-white">Still have a question?</div>
-              <div className="text-xs text-gray-400">Our customer support team is available via email: {config.supportEmail}</div>
-            </div>
-          </div>
-
+        {/* Still have questions CTA */}
+        <div className="mt-12 text-center">
+          <p className="text-xs text-slate-400 mb-3">
+            Still deciding? At only ₹{COURSE_PRICE}, you get the entire Google Gemini video production blueprint.
+          </p>
           <a
-            href={`mailto:${config.supportEmail}`}
-            className="w-full sm:w-auto px-5 py-2.5 rounded-xl bg-white/10 hover:bg-white/20 border border-white/20 text-white font-bold text-xs uppercase tracking-wider transition-all shrink-0 flex items-center justify-center gap-2"
+            href={PAYMENT_URL}
+            target="_blank"
+            rel="noopener noreferrer"
+            onClick={onBuyClick}
+            className="inline-flex items-center gap-2 px-6 py-3 rounded-xl bg-amber-400 hover:bg-amber-300 text-black font-heading font-bold text-sm tracking-wide shadow-lg shadow-amber-500/20 hover:scale-[1.02] transition-all"
           >
-            <span>Email Support</span>
+            <span>ENROLL NOW FOR ₹{COURSE_PRICE}</span>
+            <ArrowRight className="w-4 h-4 text-black" />
           </a>
         </div>
 

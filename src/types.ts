@@ -1,52 +1,40 @@
-export interface BundleConfig {
-  productTitle: string;
-  reelCount: number;
-  bonusCount: number;
-  price: number;
-  originalPrice: number;
-  currency: string;
-  paymentLink: string;
-  downloadLink: string;
-  whatsappNumber: string;
-  whatsappMessage: string;
-  supportEmail: string;
-  productImageUrl?: string;
-  headerImageUrl?: string;
+export interface CurriculumModule {
+  id: string;
+  number: string;
+  title: string;
+  description: string;
+  lessons: string[];
+  duration: string;
+  highlight: string;
 }
 
-export interface ReelSample {
-  id: string;
+export interface LearnTopic {
+  id: number;
   title: string;
-  category: 'Hulk Viral' | 'Cyber Rage' | 'Bonus Story' | 'Ultra Smash';
-  views: string;
-  likes: string;
-  audioName: string;
   description: string;
-  gradient: string;
-  badge: string;
+  iconName: string;
+  tag: string;
+}
+
+export interface WhyJoinFeature {
+  id: number;
+  title: string;
+  description: string;
+  iconName: string;
+  stats: string;
 }
 
 export interface Testimonial {
-  id: string;
   name: string;
   handle: string;
-  followersGain: string;
-  timeframe: string;
-  comment: string;
-  rating: number;
+  role: string;
+  avatar: string;
+  views: string;
+  review: string;
   verified: boolean;
-  avatarBg: string;
 }
 
 export interface FaqItem {
-  id: string;
   question: string;
   answer: string;
-}
-
-export interface LiveSale {
-  name: string;
-  location: string;
-  timeAgo: string;
-  item: string;
 }

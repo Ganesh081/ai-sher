@@ -1,30 +1,46 @@
 import React from 'react';
-import { Zap } from 'lucide-react';
-import { BundleConfig } from '../types';
+import { PAYMENT_URL, COURSE_PRICE, ORIGINAL_PRICE } from '../data/courseData';
+import { ArrowRight, Zap, Sparkles } from 'lucide-react';
 
-interface StickyMobileProps {
-  config: BundleConfig;
+interface StickyMobileBarProps {
   onBuyClick: () => void;
 }
 
-export const StickyMobileBar: React.FC<StickyMobileProps> = ({ config, onBuyClick }) => {
+export const StickyMobileBar: React.FC<StickyMobileBarProps> = ({ onBuyClick }) => {
   return (
-    <div className="fixed bottom-0 inset-x-0 z-40 sm:hidden p-3 bg-[#050505]/95 backdrop-blur-xl border-t border-lime-400/40 shadow-[0_-10px_30px_rgba(0,0,0,0.8)]">
-      <button
-        onClick={onBuyClick}
-        className="w-full h-12 px-5 rounded-xl bg-lime-400 hover:bg-lime-300 text-black font-black text-sm uppercase italic tracking-wider flex items-center justify-between shadow-[0_0_25px_rgba(163,230,53,0.6)] active:scale-95 transition-all"
-      >
-        <div className="flex items-center gap-2">
-          <Zap className="w-5 h-5 fill-black" />
-          <span>BUY NOW & GET ACCESS</span>
+    <div className="fixed bottom-0 inset-x-0 z-40 md:hidden bg-[#030611]/95 backdrop-blur-xl border-t border-amber-500/30 p-3 shadow-2xl shadow-black">
+      <div className="max-w-md mx-auto flex items-center justify-between gap-3">
+        <div className="flex flex-col">
+          <div className="flex items-center gap-1.5">
+            <span className="text-[10px] font-mono-code font-bold uppercase tracking-wider text-amber-400">
+              SPECIAL PRICE
+            </span>
+            <span className="text-[9px] font-bold px-1.5 py-0.2 rounded bg-amber-500/20 text-amber-300">
+              97% OFF
+            </span>
+          </div>
+          <div className="flex items-baseline gap-1.5">
+            <span className="text-xl font-heading font-black text-white">
+              ₹{COURSE_PRICE}
+            </span>
+            <span className="text-xs text-slate-500 line-through">
+              ₹{ORIGINAL_PRICE}
+            </span>
+          </div>
         </div>
-        <div className="flex items-center gap-2 font-display text-base">
-          <span className="text-black/60 line-through text-xs font-normal">₹{config.originalPrice}</span>
-          <span className="bg-black text-yellow-300 px-2.5 py-1 rounded text-xs font-black">
-            ₹{config.price}
-          </span>
-        </div>
-      </button>
+
+        <a
+          href={PAYMENT_URL}
+          target="_blank"
+          rel="noopener noreferrer"
+          onClick={onBuyClick}
+          className="flex-1 inline-flex items-center justify-center gap-2 py-3 px-4 rounded-xl font-heading font-extrabold text-sm tracking-wide text-black bg-gradient-to-r from-amber-400 via-yellow-300 to-amber-500 shadow-lg shadow-amber-500/30 active:scale-95 transition-all"
+        >
+          <Zap className="w-4 h-4 fill-black" />
+          <span>BUY NOW – ₹{COURSE_PRICE}</span>
+          <ArrowRight className="w-4 h-4" />
+        </a>
+      </div>
     </div>
   );
 };
