@@ -8,7 +8,6 @@ import {
   Star, 
   Flame, 
   CheckCircle2, 
-  Upload, 
   Maximize2, 
   X, 
   Smartphone, 
@@ -19,19 +18,17 @@ import {
 
 interface HeroSectionProps {
   posterUrl: string;
-  onPosterUpdate: (newUrl: string) => void;
+  onPosterUpdate?: (newUrl: string) => void;
   onBuyClick: () => void;
 }
 
 export const HeroSection: React.FC<HeroSectionProps> = ({
   posterUrl,
-  onPosterUpdate,
   onBuyClick
 }) => {
   const [isPreviewOpen, setIsPreviewOpen] = useState(false);
   const [tilt, setTilt] = useState({ x: 0, y: 0 });
   const cardRef = useRef<HTMLDivElement>(null);
-  const fileInputRef = useRef<HTMLInputElement>(null);
 
   const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
     if (!cardRef.current) return;
@@ -47,19 +44,6 @@ export const HeroSection: React.FC<HeroSectionProps> = ({
 
   const handleMouseLeave = () => {
     setTilt({ x: 0, y: 0 });
-  };
-
-  const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const file = e.target.files?.[0];
-    if (file) {
-      const reader = new FileReader();
-      reader.onload = (event) => {
-        if (event.target?.result) {
-          onPosterUpdate(event.target.result as string);
-        }
-      };
-      reader.readAsDataURL(file);
-    }
   };
 
   return (
@@ -250,26 +234,10 @@ export const HeroSection: React.FC<HeroSectionProps> = ({
                 </div>
               </div>
 
-              {/* Under-Poster Controls (Upload replacement if user has another file) */}
-              <div className="mt-4 flex items-center justify-between text-xs text-slate-400 px-2">
-                <button
-                  type="button"
-                  onClick={() => fileInputRef.current?.click()}
-                  className="inline-flex items-center gap-1.5 hover:text-amber-400 transition-colors py-1"
-                >
-                  <Upload className="w-3.5 h-3.5" />
-                  <span>Replace Poster Image</span>
-                </button>
-                <input
-                  ref={fileInputRef}
-                  type="file"
-                  accept="image/*"
-                  onChange={handleFileChange}
-                  className="hidden"
-                />
-                <span className="text-slate-500">HD 4K Cinematic Render</span>
+              {/* Under-Poster Quality Tag */}
+              <div className="mt-3 flex items-center justify-center text-xs text-slate-500">
+                <span className="font-mono-code text-[11px] tracking-wide">HD 4K Cinematic Masterclass Poster</span>
               </div>
-
             </div>
           </div>
 

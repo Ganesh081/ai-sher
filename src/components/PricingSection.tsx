@@ -19,14 +19,14 @@ interface PricingSectionProps {
 
 export const PricingSection: React.FC<PricingSectionProps> = ({ onBuyClick }) => {
   const features = [
-    'Complete AI Video Creation Masterclass (6 Modules)',
-    'Google Gemini AI Prompt Engineering Blueprint',
-    'SHER Character Consistency & Story Continuity Guide',
-    'Mobile (CapCut/VN) & PC Video Editing Timeline Workflows',
-    'Instagram Reels & YouTube Shorts Viral Hook Frameworks',
-    'Monetization Playbook: Theme Pages & Freelance Clients',
-    'Bonus: 50+ Ready-to-Use High-Octane Cinematic Prompts',
-    'Lifetime Access + All Future Course Updates Included'
+    '50 Ready-Made Sheru Reels (High-Quality MP4)',
+    'Complete Step-by-Step Training PDF Guide',
+    'Copy-Paste AI Prompts (Google Gemini + ChatGPT)',
+    'Full Video Tutorial (From Zero to Viral AI Reel)',
+    'Bonus Scripts, Story Ideas & Character Prompts',
+    'Mobile (CapCut/VN) & PC Video Editing Workflows',
+    'Viral Reel Ideas & Instagram Growth Playbook',
+    'Instant Digital Download & Lifetime Access'
   ];
 
   return (

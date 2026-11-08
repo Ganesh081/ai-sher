@@ -14,8 +14,8 @@ import { StickyMobileBar } from './components/StickyMobileBar';
 
 export default function App() {
   const [posterUrl, setPosterUrl] = useState<string>(() => {
-    const saved = localStorage.getItem('ai_video_course_poster_url');
-    if (saved && saved.trim() !== '' && !saved.includes('sher_course_poster')) {
+    const saved = localStorage.getItem('ai_video_course_poster_url_v3');
+    if (saved && saved.trim() !== '') {
       return saved;
     }
     return DEFAULT_POSTER_URL;
@@ -24,7 +24,7 @@ export default function App() {
   const handlePosterUpdate = (newUrl: string) => {
     setPosterUrl(newUrl);
     try {
-      localStorage.setItem('ai_video_course_poster_url', newUrl);
+      localStorage.setItem('ai_video_course_poster_url_v3', newUrl);
     } catch (e) {
       console.warn('LocalStorage quota exceeded or unavailable', e);
     }
