@@ -203,13 +203,6 @@ export const HeroSection: React.FC<HeroSectionProps> = ({
                 }}
                 className="relative group rounded-2xl overflow-hidden border-2 border-amber-400/40 bg-gradient-to-b from-slate-900 to-black shadow-2xl shadow-black ring-1 ring-sky-500/30"
               >
-                {/* Top Poster Badge */}
-                <div className="absolute top-3 left-3 z-20 flex items-center gap-2">
-                  <span className="px-3 py-1 rounded-full text-xs font-heading font-extrabold tracking-wider bg-black/85 text-amber-400 border border-amber-400/50 backdrop-blur-md shadow-lg flex items-center gap-1.5">
-                    <Sparkles className="w-3.5 h-3.5 text-amber-400" />
-                    OFFICIAL COURSE POSTER
-                  </span>
-                </div>
 
                 {/* Enlarge Button */}
                 <button
