@@ -1,11 +1,11 @@
 import { LearnTopic, WhyJoinFeature, CurriculumModule, Testimonial, FaqItem } from '../types';
 
 export const PAYMENT_URL = 'https://payments.cashfree.com/forms?code=ai-video-course-149';
-export const COURSE_PRICE = 99;
+export const COURSE_PRICE = 49;
 export const ORIGINAL_PRICE = 499;
-export const DISCOUNT_PERCENT = 80;
+export const DISCOUNT_PERCENT = 90;
 
-export const DEFAULT_POSTER_URL = '/assets/aistudio/AI_Video_Course_at__99_99d0838e.png';
+export const DEFAULT_POSTER_URL = '/assets/aistudio/Sheru_AI_Video_Course_Launch_Offer_c34a09d8.png';
 
 // Core "What You Will Learn" from user specification:
 // 1. Create cinematic AI videos.
@@ -191,7 +191,7 @@ export const TESTIMONIALS: Testimonial[] = [
     role: 'Digital Creator',
     avatar: 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=120&auto=format&fit=crop&q=80',
     views: '1.2M Views on 1st Reel',
-    review: 'I never made a video before. The Google Gemini prompt formula and CapCut steps in this course helped me create my first viral lion animation in 20 minutes. At ₹99, this is unbeatable value.',
+    review: 'I never made a video before. The Google Gemini prompt formula and CapCut steps in this course helped me create my first viral lion animation in 20 minutes. At ₹49, this is unbeatable value.',
     verified: true
   },
   {
@@ -216,8 +216,8 @@ export const TESTIMONIALS: Testimonial[] = [
 
 export const FAQS: FaqItem[] = [
   {
-    question: 'How do I get access to the course after paying ₹99?',
-    answer: 'Immediate instant digital access! As soon as your ₹99 payment completes securely on Cashfree, you are instantly redirected to the course learning portal with all video modules, downloadable prompts, and editing resources. You also receive an instant confirmation receipt.'
+    question: 'How do I get access to the course after paying ₹49?',
+    answer: 'Immediate instant digital access! As soon as your ₹49 payment completes securely on Cashfree, you are instantly redirected to the course learning portal with all video modules, downloadable prompts, and editing resources. You also receive an instant confirmation receipt.'
   },
   {
     question: 'Can I do this course on a mobile phone without a laptop?',
@@ -237,6 +237,6 @@ export const FAQS: FaqItem[] = [
   },
   {
     question: 'Are there any hidden recurring fees?',
-    answer: 'No hidden fees whatsoever. ₹99 is a one-time payment for complete lifetime access to all lessons, templates, and future updates.'
+    answer: 'No hidden fees whatsoever. ₹49 is a one-time payment for complete lifetime access to all lessons, templates, and future updates.'
   }
 ];
