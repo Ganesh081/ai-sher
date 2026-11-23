@@ -1,5 +1,5 @@
 import React from 'react';
-import { PAYMENT_URL, COURSE_PRICE, ORIGINAL_PRICE } from '../data/courseData';
+import { PAYMENT_URL, COURSE_PRICE, ORIGINAL_PRICE, DISCOUNT_PERCENT } from '../data/courseData';
 import { ArrowRight, Zap, Sparkles } from 'lucide-react';
 
 interface StickyMobileBarProps {
@@ -16,7 +16,7 @@ export const StickyMobileBar: React.FC<StickyMobileBarProps> = ({ onBuyClick }) 
               SPECIAL PRICE
             </span>
             <span className="text-[9px] font-bold px-1.5 py-0.2 rounded bg-amber-500/20 text-amber-300">
-              97% OFF
+              {DISCOUNT_PERCENT}% OFF
             </span>
           </div>
           <div className="flex items-baseline gap-1.5">
